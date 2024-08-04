@@ -1,0 +1,146 @@
+﻿@using PerfumeStores.Core.DTOs;
+@using Microsoft.AspNetCore.Http;
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PerfumeStores</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="~/css/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/style.css" type="text/css">
+    <link rel="stylesheet" href="~/PerfumeStores.styles.css" asp-append-version="true">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="//cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script src="//cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<body>
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__left">
+                            <ul>
+                                <li><i class="fa fa-envelope"></i> Team 7 - SE1611</li>
+                                <li>Free Shipping for all Order of $99</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__right">
+                            <div class="header__top__right__social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                            </div>
+                            <div class="header__top__right__language">
+                                <img src="img/language.png" alt="">
+                                <div>English</div>
+                                <span class="arrow_carrot-down"></span>
+                            </div>
+                            <div class="header__top__right__auth">
+                                @if (LoginDTO.CustomerID == null)
+                                {
+                                    <a href="/login"><i class="fa fa-user"></i> Login</a>
+                                }
+                                else
+                                {
+                                    <div class="header__top__right__language">
+                                        <a href="/ViewProfile?id=@LoginDTO.CustomerID"><i class="fa fa-user"></i>Welcome, @LayoutModel.UserName</a>
+                                        <span class="arrow_carrot-down"></span>
+                                        <ul>
+                                            <li><a href="/ViewProfile/update?id=@LoginDTO.CustomerID">Update account</a></li>
+                                            <li><a href="/ViewProfile/changepassword?id=@LoginDTO.CustomerID">Change Password</a></li>
+                                            <li><a href="/ViewProfile/logout">Logout</a></li>
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="header__logo">
+                        <a href="/index"><img src="img/logo.png" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <nav class="header__menu">
+                        <ul>
+                            <li class="active"><a href="/index">Home</a></li>
+                            <li><a href="/shopping/product">Shop</a></li>
+                            @if (LoginDTO.IsAdmin == false)
+                            {
+                                <li>
+                                    <a href="#">Pages</a>
+                                    <ul class="header__menu__dropdown">
+                                        <li><a href="/shopping/cart">Shoping Cart</a></li>
+                                        <li><a href="/checkout/index">Check Out</a></li>
+                                        <li><a href="/shopping/order">View Order</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            @if (LoginDTO.CustomerID != null && LoginDTO.IsAdmin)
+                            {
+                                <li>
+                                    <a href="#">Manager</a>
+                                    <ul class="header__menu__dropdown">
+                                        <li><a href="/ordermanage/index">Order Manger</a></li>
+                                        <li><a href="/productmanage/index">Product Manager</a></li>
+                                        <li><a href="/ordermanage/statistical">Statistical</a></li>
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <div class="header__cart">
+                        <ul>
+                            <li><a href="/shopping/cart"><i class="fa fa-shopping-bag"></i> <span id="cart-count">@LayoutModel.AmountCart</span></a>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/mixitup.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
